@@ -6,3 +6,5 @@ export { default as CodeReference } from './CodeReference';
 export { default as Documentation } from './Documentation';
 export { default as ExceptionInvestigation } from './ExceptionInvestigation';
 export { default as TaxonomyHarmonization } from './TaxonomyHarmonization';
+export { default as UAECorridors } from './UAECorridors';
+export { default as CorridorTranslator } from './CorridorTranslator';

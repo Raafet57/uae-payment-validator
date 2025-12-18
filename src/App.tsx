@@ -13,6 +13,8 @@ import {
   Documentation,
   ExceptionInvestigation,
   TaxonomyHarmonization,
+  UAECorridors,
+  CorridorTranslator,
 } from './pages';
 
 // Create a client
@@ -40,6 +42,8 @@ const App: React.FC = () => {
               <Route path="/codes" element={<CodeExplorer />} />
               <Route path="/reference" element={<CodeReference />} />
               <Route path="/taxonomy" element={<TaxonomyHarmonization />} />
+              <Route path="/corridors" element={<UAECorridors />} />
+              <Route path="/translator" element={<CorridorTranslator />} />
               <Route path="/docs" element={<Documentation />} />
             </Routes>
           </Layout>
