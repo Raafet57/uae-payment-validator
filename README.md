@@ -1,46 +1,148 @@
-# Getting Started with Create React App
+# UAE Payment Validator
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A comprehensive React application for validating UAE payment transactions against CBUAE (Central Bank of UAE) regulations, including UAEFTS AUX700 purpose codes, IBAN validation, and regulatory compliance checking.
 
-## Available Scripts
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![React](https://img.shields.io/badge/React-18-61dafb.svg)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6.svg)
+![MUI](https://img.shields.io/badge/MUI-6-007fff.svg)
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+### Core Validation
+- **Transaction Validator** - Validate payments against UAEFTS rules with real-time STP scoring
+- **IBAN Validator** - UAE IBAN format validation with bank code lookup
+- **Purpose Code Explorer** - Browse and search all 117 UAE purpose codes
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Exception Handling
+- **Exception Investigation** - 5-step workflow for diagnosing returned payments
+- **Return Reason Codes** - 17 common UAE return codes (AC01, NARR, LEIR, etc.)
+- **Suggested Corrections** - AI-powered recommendations for fixing rejected transactions
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Reference & Documentation
+- **Code Reference** - Detailed descriptions, use cases, and examples for all 117 codes
+- **Taxonomy Harmonization** - Map UAE codes to ISO 20022 and IMF BOP standards
+- **Compliance Documentation** - UAEFTS AUX700 rules, penalties, and regulatory updates
 
-### `npm test`
+### Regulatory Intelligence
+- **ISO 20022 Mapping** - ~98% coverage with confidence indicators
+- **IMF BOP Mapping** - ~90% coverage for cross-border reporting
+- **2025 CBUAE Law Updates** - Federal Decree Law No. 6/2025 penalty information
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Quick Start
 
-### `npm run build`
+### Prerequisites
+- Node.js 18+
+- npm or yarn
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Installation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+# Clone the repository
+git clone https://github.com/YOUR_USERNAME/uae-payment-validator.git
+cd uae-payment-validator
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Install dependencies
+npm install
 
-### `npm run eject`
+# Create environment file
+echo "REACT_APP_UAE_API_URL=http://localhost:8000/api/v1/uae" > .env
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+# Start development server
+npm start
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The app will open at [http://localhost:3000](http://localhost:3000)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Environment Variables
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `REACT_APP_UAE_API_URL` | Backend API URL | `http://localhost:8000/api/v1/uae` |
 
-## Learn More
+## Project Structure
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+src/
+├── components/          # Reusable UI components
+│   ├── Layout.tsx       # Main layout with navigation
+│   ├── PurposeCodeCard.tsx
+│   ├── STPScoreGauge.tsx
+│   └── IBANInput.tsx
+├── pages/               # Route pages
+│   ├── Dashboard.tsx
+│   ├── TransactionValidator.tsx
+│   ├── ExceptionInvestigation.tsx
+│   ├── IBANValidator.tsx
+│   ├── CodeExplorer.tsx
+│   ├── CodeReference.tsx
+│   ├── TaxonomyHarmonization.tsx
+│   └── Documentation.tsx
+├── data/                # Static data files
+│   ├── codeDescriptions.ts    # 117 code descriptions
+│   └── taxonomyMapping.ts     # ISO/BOP mappings
+├── services/            # API client
+│   └── api.ts
+├── types/               # TypeScript interfaces
+│   └── index.ts
+└── theme.ts             # UAE-branded MUI theme
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Tech Stack
+
+- **React 18** - UI framework
+- **TypeScript 5** - Type safety
+- **Material-UI 6** - Component library
+- **React Router 6** - Navigation
+- **TanStack Query 5** - Data fetching
+- **Axios** - HTTP client
+
+## Regulatory References
+
+This application implements validation rules based on:
+
+- **UAEFTS AUX700** - Technical Notes on Transaction Codes for BOP
+- **Notice CBUAE/BSD/N/2018/759** - Cross-border reporting requirements
+- **Circular 22/2021** - Strict liability violations
+- **Federal Decree Law No. 6/2025** - New CBUAE regulatory framework
+
+## Screenshots
+
+### Dashboard
+Overview of UAE payment validation with quick access to all features.
+
+### Transaction Validator
+Real-time validation with STP scoring and compliance checking.
+
+### Taxonomy Harmonization
+Visual mapping between UAE, ISO 20022, and IMF BOP codes.
+
+## API Backend
+
+This frontend is designed to work with a FastAPI backend. The backend provides:
+- Purpose code validation endpoints
+- IBAN validation with bank lookup
+- Transaction validation with STP scoring
+- Static code data endpoints
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Disclaimer
+
+This tool is provided for informational and educational purposes only. Always verify regulatory requirements with official CBUAE sources and your compliance team. The penalty and compliance information is based on publicly available regulations and may not reflect the most current requirements.
+
+## Acknowledgments
+
+- Central Bank of UAE (CBUAE) for regulatory documentation
+- ISO 20022 for international payment standards
+- IMF for Balance of Payments classification framework
