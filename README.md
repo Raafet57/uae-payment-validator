@@ -2,7 +2,6 @@
 
 A comprehensive React application for validating UAE payment transactions against CBUAE (Central Bank of UAE) regulations, including UAEFTS AUX700 purpose codes, IBAN validation, and regulatory compliance checking.
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![React](https://img.shields.io/badge/React-18-61dafb.svg)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6.svg)
 ![MUI](https://img.shields.io/badge/MUI-6-007fff.svg)
@@ -132,10 +131,6 @@ This frontend is designed to work with a FastAPI backend. The backend provides:
 3. Commit your changes (`git commit -m 'Add amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Disclaimer
 
