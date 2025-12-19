@@ -36,3 +36,10 @@ yarn-error.log*
 
 # OS
 Thumbs.db
+
+# Backend
+backend/venv/
+backend/__pycache__/
+backend/app/__pycache__/
+backend/app/api/__pycache__/
+*.pyc
