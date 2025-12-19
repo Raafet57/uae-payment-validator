@@ -16,6 +16,8 @@ import {
   Alert,
   CircularProgress,
   Collapse,
+  Chip,
+  Paper,
 } from '@mui/material';
 import {
   SwapHoriz as DomesticIcon,
@@ -24,11 +26,16 @@ import {
   ArrowUpward as OutboundIcon,
   Send as ValidateIcon,
   Refresh as ResetIcon,
+  Info as InfoIcon,
+  Warning as WarningIcon,
+  CheckCircle as CheckIcon,
 } from '@mui/icons-material';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { validationApi, codesApi } from '../services/api';
-import { UAEValidationRequest, UAEPurposeCode } from '../types';
+import { UAEValidationRequest, UAEPurposeCode, UAEValidationResponse } from '../types';
 import { IBANInput, ValidationResults } from '../components';
+import { UAE_PURPOSE_CODES } from '../data/uaePurposeCodes';
+import { CODE_DESCRIPTIONS } from '../data/codeDescriptions';
+import { ISO_20022_CODES, IMF_BOP_CODES } from '../data/taxonomyMapping';
+import { validateTransactionLocally } from '../utils/localValidation';
 
 const TransactionValidator: React.FC = () => {
   const [formData, setFormData] = useState<UAEValidationRequest>({
@@ -47,35 +54,38 @@ const TransactionValidator: React.FC = () => {
   const [selectedCode, setSelectedCode] = useState<UAEPurposeCode | null>(null);
   const [showResults, setShowResults] = useState(false);
 
-  // Fetch purpose codes for autocomplete
-  const { data: codesData } = useQuery({
-    queryKey: ['codes', formData.transaction_type],
-    queryFn: () => codesApi.getCodes({ transaction_type: formData.transaction_type, limit: 200 }),
-  });
-
-  // Filter codes based on transaction type
+  // Filter codes based on transaction type (using local data)
   const availableCodes = useMemo(() => {
-    if (!codesData?.codes) return [];
-    return codesData.codes.filter((code) => {
+    return UAE_PURPOSE_CODES.filter((code) => {
       if (formData.transaction_type === 'domestic') {
         return code.applies_to_domestic;
       }
       return code.applies_to_offshore;
     });
-  }, [codesData, formData.transaction_type]);
+  }, [formData.transaction_type]);
 
-  // Validation mutation
-  const validateMutation = useMutation({
-    mutationFn: validationApi.validateTransaction,
-    onSuccess: () => {
-      setShowResults(true);
-    },
-  });
+  // Get detailed description for selected code
+  const codeDetails = useMemo(() => {
+    if (!selectedCode) return null;
+    return CODE_DESCRIPTIONS[selectedCode.code] || null;
+  }, [selectedCode]);
+
+  // Local validation state
+  const [validationResult, setValidationResult] = useState<UAEValidationResponse | null>(null);
+  const [isValidating, setIsValidating] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setShowResults(false);
-    validateMutation.mutate(formData);
+    setIsValidating(true);
+
+    // Simulate a brief delay for UX
+    setTimeout(() => {
+      const result = validateTransactionLocally(formData);
+      setValidationResult(result);
+      setIsValidating(false);
+      setShowResults(true);
+    }, 300);
   };
 
   const handleReset = () => {
@@ -93,7 +103,7 @@ const TransactionValidator: React.FC = () => {
     });
     setSelectedCode(null);
     setShowResults(false);
-    validateMutation.reset();
+    setValidationResult(null);
   };
 
   const handleCodeChange = (_: React.SyntheticEvent, value: UAEPurposeCode | null) => {
@@ -220,17 +230,114 @@ const TransactionValidator: React.FC = () => {
                 renderOption={(props, option) => (
                   <li {...props} key={option.code}>
                     <Box>
-                      <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                        {option.code} - {option.name}
-                      </Typography>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Typography variant="body2" sx={{ fontWeight: 600, fontFamily: 'monospace' }}>
+                          {option.code}
+                        </Typography>
+                        <Typography variant="body2">
+                          {option.name}
+                        </Typography>
+                        {option.requires_lei && (
+                          <Chip label="LEI" size="small" color="warning" sx={{ height: 18, fontSize: '0.65rem' }} />
+                        )}
+                      </Box>
                       <Typography variant="caption" color="text.secondary">
-                        {option.category_name}
+                        {option.category_name} • {option.iso_20022_code && `ISO: ${option.iso_20022_code}`}
                       </Typography>
                     </Box>
                   </li>
                 )}
-                sx={{ mb: 3 }}
+                sx={{ mb: 2 }}
               />
+
+              {/* Code Details Panel */}
+              <Collapse in={!!selectedCode}>
+                <Paper variant="outlined" sx={{ p: 2, mb: 3, bgcolor: 'grey.50' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+                    <InfoIcon color="primary" sx={{ mt: 0.5 }} />
+                    <Box sx={{ flex: 1 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                        <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                          {selectedCode?.code} - {selectedCode?.name}
+                        </Typography>
+                        {selectedCode?.iso_20022_code && (
+                          <Chip
+                            label={`ISO: ${selectedCode.iso_20022_code}`}
+                            size="small"
+                            color="primary"
+                            variant="outlined"
+                            sx={{ height: 20, fontSize: '0.7rem' }}
+                          />
+                        )}
+                        {selectedCode?.requires_lei && (
+                          <Chip
+                            label="LEI Required"
+                            size="small"
+                            color="warning"
+                            sx={{ height: 20, fontSize: '0.7rem' }}
+                          />
+                        )}
+                      </Box>
+                      <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                        {selectedCode?.description}
+                      </Typography>
+
+                      {/* ISO/BOP Mapping Display */}
+                      {(selectedCode?.iso_20022_code || selectedCode?.imf_bop_code) && (
+                        <Box sx={{ display: 'flex', gap: 2, mb: 1, flexWrap: 'wrap' }}>
+                          {selectedCode?.iso_20022_code && ISO_20022_CODES[selectedCode.iso_20022_code] && (
+                            <Box sx={{ bgcolor: 'primary.50', p: 1, borderRadius: 1, flex: '1 1 45%', minWidth: 150 }}>
+                              <Typography variant="caption" sx={{ fontWeight: 600, color: 'primary.main' }}>
+                                ISO 20022
+                              </Typography>
+                              <Typography variant="caption" component="div" sx={{ fontFamily: 'monospace' }}>
+                                {selectedCode.iso_20022_code} - {ISO_20022_CODES[selectedCode.iso_20022_code]?.name}
+                              </Typography>
+                            </Box>
+                          )}
+                          {selectedCode?.imf_bop_code && IMF_BOP_CODES[selectedCode.imf_bop_code] && (
+                            <Box sx={{ bgcolor: 'secondary.50', p: 1, borderRadius: 1, flex: '1 1 45%', minWidth: 150 }}>
+                              <Typography variant="caption" sx={{ fontWeight: 600, color: 'secondary.main' }}>
+                                IMF BOP
+                              </Typography>
+                              <Typography variant="caption" component="div" sx={{ fontFamily: 'monospace' }}>
+                                {selectedCode.imf_bop_code} - {IMF_BOP_CODES[selectedCode.imf_bop_code]?.name}
+                              </Typography>
+                            </Box>
+                          )}
+                        </Box>
+                      )}
+
+                      {codeDetails && (
+                        <>
+                          {codeDetails.useCases && codeDetails.useCases.length > 0 && (
+                            <Box sx={{ mb: 1 }}>
+                              <Typography variant="caption" sx={{ fontWeight: 600, color: 'success.main' }}>
+                                <CheckIcon sx={{ fontSize: 14, mr: 0.5, verticalAlign: 'middle' }} />
+                                Use Cases:
+                              </Typography>
+                              <Typography variant="caption" color="text.secondary" component="div">
+                                {codeDetails.useCases.slice(0, 2).join(' • ')}
+                              </Typography>
+                            </Box>
+                          )}
+                          {codeDetails.commonMistakes && codeDetails.commonMistakes.length > 0 && (
+                            <Box>
+                              <Typography variant="caption" sx={{ fontWeight: 600, color: 'warning.main' }}>
+                                <WarningIcon sx={{ fontSize: 14, mr: 0.5, verticalAlign: 'middle' }} />
+                                Common Mistakes:
+                              </Typography>
+                              <Typography variant="caption" color="text.secondary" component="div">
+                                {codeDetails.commonMistakes[0]}
+                              </Typography>
+                            </Box>
+                          )}
+                        </>
+                      )}
+                    </Box>
+                  </Box>
+                </Paper>
+              </Collapse>
 
               <Divider sx={{ my: 3 }} />
 
@@ -323,16 +430,16 @@ const TransactionValidator: React.FC = () => {
                   variant="contained"
                   size="large"
                   startIcon={
-                    validateMutation.isPending ? (
+                    isValidating ? (
                       <CircularProgress size={20} color="inherit" />
                     ) : (
                       <ValidateIcon />
                     )
                   }
-                  disabled={validateMutation.isPending}
+                  disabled={isValidating}
                   sx={{ flex: 1 }}
                 >
-                  {validateMutation.isPending ? 'Validating...' : 'Validate Transaction'}
+                  {isValidating ? 'Validating...' : 'Validate Transaction'}
                 </Button>
                 <Button
                   variant="outlined"
@@ -349,17 +456,11 @@ const TransactionValidator: React.FC = () => {
 
         {/* Results Panel */}
         <Box>
-          {validateMutation.isError && (
-            <Alert severity="error" sx={{ mb: 2 }}>
-              Validation failed. Please check your connection and try again.
-            </Alert>
+          {showResults && validationResult && (
+            <ValidationResults response={validationResult} />
           )}
 
-          {showResults && validateMutation.data && (
-            <ValidationResults response={validateMutation.data} />
-          )}
-
-          {!showResults && !validateMutation.isPending && (
+          {!showResults && !isValidating && (
             <Card sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 400 }}>
               <CardContent sx={{ textAlign: 'center' }}>
                 <ValidateIcon sx={{ fontSize: 64, color: 'text.disabled', mb: 2 }} />
@@ -367,7 +468,7 @@ const TransactionValidator: React.FC = () => {
                   Fill in the form and click "Validate Transaction"
                 </Typography>
                 <Typography variant="body2" color="text.disabled">
-                  Results will appear here
+                  Local validation • No API required
                 </Typography>
               </CardContent>
             </Card>
