@@ -22,12 +22,9 @@ import {
   CheckCircle as ValidateIcon,
   ReportProblem as ExceptionIcon,
   AccountBalance as IBANIcon,
-  Search as ExploreIcon,
-  MenuBook as ReferenceIcon,
-  AccountTree as TaxonomyIcon,
+  LibraryBooks as CatalogIcon,
+  Public as CrossBorderIcon,
   Description as DocsIcon,
-  FlightTakeoff as CorridorsIcon,
-  Translate as TranslatorIcon,
 } from '@mui/icons-material';
 import { useQuery } from '@tanstack/react-query';
 import { healthApi } from '../services/api';
@@ -39,11 +36,8 @@ const navItems = [
   { path: '/validate', label: 'Transaction Validator', icon: <ValidateIcon /> },
   { path: '/exception', label: 'Exception Investigation', icon: <ExceptionIcon /> },
   { path: '/iban', label: 'IBAN Validator', icon: <IBANIcon /> },
-  { path: '/codes', label: 'Code Explorer', icon: <ExploreIcon /> },
-  { path: '/reference', label: 'Code Reference', icon: <ReferenceIcon /> },
-  { path: '/taxonomy', label: 'Taxonomy Harmonization', icon: <TaxonomyIcon /> },
-  { path: '/corridors', label: 'UAE Corridors', icon: <CorridorsIcon /> },
-  { path: '/translator', label: 'Code Translator', icon: <TranslatorIcon /> },
+  { path: '/catalog', label: 'Code Catalog', icon: <CatalogIcon /> },
+  { path: '/cross-border', label: 'Cross-Border', icon: <CrossBorderIcon /> },
   { path: '/docs', label: 'Documentation', icon: <DocsIcon /> },
 ];
 

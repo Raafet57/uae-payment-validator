@@ -8,13 +8,10 @@ import {
   Dashboard,
   TransactionValidator,
   IBANValidator,
-  CodeExplorer,
-  CodeReference,
+  CodeCatalog,
+  CrossBorder,
   Documentation,
   ExceptionInvestigation,
-  TaxonomyHarmonization,
-  UAECorridors,
-  CorridorTranslator,
 } from './pages';
 
 // Create a client
@@ -39,11 +36,8 @@ const App: React.FC = () => {
               <Route path="/validate" element={<TransactionValidator />} />
               <Route path="/exception" element={<ExceptionInvestigation />} />
               <Route path="/iban" element={<IBANValidator />} />
-              <Route path="/codes" element={<CodeExplorer />} />
-              <Route path="/reference" element={<CodeReference />} />
-              <Route path="/taxonomy" element={<TaxonomyHarmonization />} />
-              <Route path="/corridors" element={<UAECorridors />} />
-              <Route path="/translator" element={<CorridorTranslator />} />
+              <Route path="/catalog" element={<CodeCatalog />} />
+              <Route path="/cross-border" element={<CrossBorder />} />
               <Route path="/docs" element={<Documentation />} />
             </Routes>
           </Layout>

@@ -56,12 +56,14 @@ const TransactionValidator: React.FC = () => {
 
   // Filter codes based on transaction type (using local data)
   const availableCodes = useMemo(() => {
-    return UAE_PURPOSE_CODES.filter((code) => {
+    const filtered = UAE_PURPOSE_CODES.filter((code) => {
       if (formData.transaction_type === 'domestic') {
         return code.applies_to_domestic;
       }
       return code.applies_to_offshore;
     });
+    console.log(`[DEBUG] Total UAE codes: ${UAE_PURPOSE_CODES.length}, Filtered (${formData.transaction_type}): ${filtered.length}`);
+    return filtered;
   }, [formData.transaction_type]);
 
   // Get detailed description for selected code

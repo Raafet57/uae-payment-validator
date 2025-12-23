@@ -1905,6 +1905,445 @@ export const CODE_DESCRIPTIONS: Record<string, CodeDescription> = {
     relatedCodes: ['AFA', 'OAT'],
     keywords: ['own account', 'UAE', 'non-resident'],
   },
+
+  // ============================================================================
+  // INTEREST - ADDITIONAL CODES
+  // ============================================================================
+  IRP: {
+    code: 'IRP',
+    shortDescription: 'Interest rate swap payments',
+    detailedDescription:
+      'Use this code for payments related to interest rate swap contracts. This includes periodic interest payments under swap agreements where parties exchange fixed and floating interest rate obligations.',
+    useCases: [
+      'Interest rate swap settlement',
+      'Swap contract periodic payment',
+      'Floating-to-fixed interest exchange',
+    ],
+    examples: [
+      'Quarterly IRS payment to counterparty bank',
+      'Swap settlement under ISDA agreement',
+    ],
+    notes: ['For OFFSHORE transactions only', 'LEI typically required'],
+    relatedCodes: ['IRW', 'LIP', 'FDA'],
+    keywords: ['swap', 'IRS', 'interest rate', 'derivative', 'hedging'],
+  },
+
+  IRW: {
+    code: 'IRW',
+    shortDescription: 'Interest rate swap unwind payments',
+    detailedDescription:
+      'Use this code for termination or unwinding of interest rate swap contracts. This includes early termination payments, break costs, and settlement amounts upon closing swap positions.',
+    useCases: [
+      'Swap early termination payment',
+      'Unwind settlement',
+      'Swap break cost payment',
+    ],
+    examples: [
+      'Early termination payment on 5-year IRS',
+      'Break cost for unwinding hedge position',
+    ],
+    notes: ['For OFFSHORE transactions only', 'LEI typically required'],
+    relatedCodes: ['IRP', 'FDA'],
+    keywords: ['swap', 'unwind', 'termination', 'break cost'],
+  },
+
+  ISL: {
+    code: 'ISL',
+    shortDescription: 'Interest on securities > 1 year',
+    detailedDescription:
+      'Use this code for interest income or payments on long-term securities with maturity greater than one year. This includes coupon payments on bonds, notes, and other debt instruments.',
+    useCases: [
+      'Bond coupon payment',
+      'Long-term note interest',
+      'Corporate bond interest receipt',
+    ],
+    examples: [
+      'Semi-annual coupon on 10-year government bond',
+      'Interest payment on corporate notes',
+    ],
+    notes: ['For OFFSHORE transactions only', 'LEI typically required'],
+    relatedCodes: ['ISS', 'DLA', 'IOL'],
+    keywords: ['bond', 'coupon', 'long-term', 'securities', 'interest'],
+  },
+
+  ISS: {
+    code: 'ISS',
+    shortDescription: 'Interest on securities < 1 year',
+    detailedDescription:
+      'Use this code for interest income or payments on short-term securities with maturity less than one year. This includes interest on treasury bills, commercial paper, and other money market instruments.',
+    useCases: [
+      'Treasury bill interest',
+      'Commercial paper interest',
+      'Money market instrument interest',
+    ],
+    examples: [
+      'Interest on 90-day treasury bills',
+      'Commercial paper discount settlement',
+    ],
+    notes: ['For OFFSHORE transactions only'],
+    relatedCodes: ['ISL', 'DSA', 'IOL'],
+    keywords: ['treasury bill', 'commercial paper', 'short-term', 'money market'],
+  },
+
+  DLF: {
+    code: 'DLF',
+    shortDescription: 'Debt instruments intragroup - foreign deposits',
+    detailedDescription:
+      'Use this code for intragroup debt instrument transactions involving foreign deposits. This includes deposits placed with or received from related entities abroad.',
+    useCases: [
+      'Intragroup deposit placement abroad',
+      'Related party foreign deposits',
+      'Group treasury foreign placements',
+    ],
+    examples: [
+      'Deposit placed with parent company abroad',
+      'Foreign subsidiary deposit receipt',
+    ],
+    notes: ['For OFFSHORE transactions only', 'LEI typically required'],
+    relatedCodes: ['LDL', 'IGT', 'IOD'],
+    keywords: ['intragroup', 'deposit', 'foreign', 'related party'],
+  },
+
+  LDL: {
+    code: 'LDL',
+    shortDescription: 'Debt instruments intragroup - UAE deposits',
+    detailedDescription:
+      'Use this code for intragroup debt instrument transactions involving UAE deposits. This includes deposits within UAE between related entities.',
+    useCases: [
+      'Intragroup deposit within UAE',
+      'Related party local deposits',
+      'Group treasury UAE placements',
+    ],
+    examples: [
+      'Deposit from subsidiary to parent within UAE',
+    ],
+    notes: ['For DOMESTIC transactions only', 'LEI typically required'],
+    relatedCodes: ['DLF', 'IGT', 'IOD'],
+    keywords: ['intragroup', 'deposit', 'UAE', 'domestic', 'related party'],
+  },
+
+  // ============================================================================
+  // LOANS - ADDITIONAL CODES
+  // ============================================================================
+  PRP: {
+    code: 'PRP',
+    shortDescription: 'Profit rate swap payments',
+    detailedDescription:
+      'Use this code for Islamic profit rate swap payments. This is the Sharia-compliant equivalent of interest rate swaps, involving exchange of profit rates rather than interest.',
+    useCases: [
+      'Islamic profit rate swap settlement',
+      'Sharia-compliant swap payment',
+      'Islamic hedging payment',
+    ],
+    examples: [
+      'Quarterly profit rate swap settlement',
+      'Islamic derivative payment',
+    ],
+    notes: ['For OFFSHORE transactions only', 'LEI typically required', 'Sharia-compliant'],
+    relatedCodes: ['PRW', 'IRP', 'PIP'],
+    keywords: ['Islamic', 'profit rate', 'swap', 'Sharia', 'hedging'],
+  },
+
+  PRW: {
+    code: 'PRW',
+    shortDescription: 'Profit rate swap unwind payments',
+    detailedDescription:
+      'Use this code for termination or unwinding of Islamic profit rate swap contracts. This includes early termination settlements for Sharia-compliant swap positions.',
+    useCases: [
+      'Islamic swap early termination',
+      'Profit rate swap unwind',
+      'Sharia-compliant swap closure',
+    ],
+    examples: [
+      'Early termination of Islamic hedge',
+    ],
+    notes: ['For OFFSHORE transactions only', 'LEI typically required', 'Sharia-compliant'],
+    relatedCodes: ['PRP', 'IRW', 'PIP'],
+    keywords: ['Islamic', 'profit rate', 'unwind', 'termination', 'Sharia'],
+  },
+
+  // ============================================================================
+  // INVESTMENT - ADDITIONAL CODES
+  // ============================================================================
+  CEL: {
+    code: 'CEL',
+    shortDescription: 'Equity in company abroad by non-residents',
+    detailedDescription:
+      'Use this code for non-resident investment in equity of companies abroad. This includes foreign investors making equity investments in overseas companies through UAE.',
+    useCases: [
+      'Non-resident foreign equity investment',
+      'Foreign investor overseas acquisition',
+    ],
+    examples: [
+      'Non-resident purchasing shares in Singapore company',
+    ],
+    notes: ['For OFFSHORE transactions only', 'LEI typically required'],
+    relatedCodes: ['CEA', 'FSA'],
+    keywords: ['equity', 'investment', 'non-resident', 'foreign'],
+  },
+
+  DLA: {
+    code: 'DLA',
+    shortDescription: 'Foreign debt securities > 1 year',
+    detailedDescription:
+      'Use this code for purchase or sale of long-term foreign debt securities with maturity greater than one year. This includes bonds, notes, and other long-term debt instruments issued abroad.',
+    useCases: [
+      'Foreign government bond purchase',
+      'International corporate bond investment',
+      'Long-term foreign note acquisition',
+    ],
+    examples: [
+      'Purchase of US Treasury 10-year bonds',
+      'Investment in European corporate bonds',
+    ],
+    notes: ['For OFFSHORE transactions only', 'LEI typically required'],
+    relatedCodes: ['DSA', 'DLL', 'ISL'],
+    keywords: ['bonds', 'debt', 'long-term', 'foreign', 'securities'],
+  },
+
+  DSA: {
+    code: 'DSA',
+    shortDescription: 'Foreign debt securities < 1 year',
+    detailedDescription:
+      'Use this code for purchase or sale of short-term foreign debt securities with maturity less than one year. This includes treasury bills, commercial paper, and money market instruments issued abroad.',
+    useCases: [
+      'Foreign treasury bill purchase',
+      'International commercial paper',
+      'Short-term foreign note acquisition',
+    ],
+    examples: [
+      'Purchase of US Treasury bills',
+      'Investment in foreign commercial paper',
+    ],
+    notes: ['For OFFSHORE transactions only'],
+    relatedCodes: ['DLA', 'DSL', 'ISS'],
+    keywords: ['treasury', 'debt', 'short-term', 'money market', 'foreign'],
+  },
+
+  DLL: {
+    code: 'DLL',
+    shortDescription: 'Resident debt securities > 1 year',
+    detailedDescription:
+      'Use this code for purchase or sale of long-term UAE debt securities with maturity greater than one year. This includes UAE government bonds, local corporate bonds, and sukuk.',
+    useCases: [
+      'UAE government bond purchase',
+      'Local corporate bond investment',
+      'UAE sukuk investment',
+    ],
+    examples: [
+      'Purchase of UAE Federal Government bonds',
+      'Investment in local corporate sukuk',
+    ],
+    notes: ['For DOMESTIC transactions only'],
+    relatedCodes: ['DSL', 'DLA'],
+    keywords: ['bonds', 'debt', 'long-term', 'UAE', 'sukuk'],
+  },
+
+  DSL: {
+    code: 'DSL',
+    shortDescription: 'Resident debt securities < 1 year',
+    detailedDescription:
+      'Use this code for purchase or sale of short-term UAE debt securities with maturity less than one year. This includes UAE treasury bills and local money market instruments.',
+    useCases: [
+      'UAE treasury bill purchase',
+      'Local money market investment',
+      'Short-term UAE instruments',
+    ],
+    examples: [
+      'Purchase of UAE Central Bank CDs',
+      'Local commercial paper investment',
+    ],
+    notes: ['For DOMESTIC transactions only'],
+    relatedCodes: ['DLL', 'DSA'],
+    keywords: ['treasury', 'debt', 'short-term', 'UAE', 'money market'],
+  },
+
+  DSF: {
+    code: 'DSF',
+    shortDescription: 'Debt instruments intragroup - foreign securities',
+    detailedDescription:
+      'Use this code for intragroup transactions involving foreign debt securities. This includes intercompany transfers of foreign bonds and notes between related entities.',
+    useCases: [
+      'Intragroup foreign bond transfer',
+      'Related party securities transaction',
+      'Group restructuring of foreign debt',
+    ],
+    examples: [
+      'Transfer of foreign bonds to subsidiary',
+    ],
+    notes: ['For OFFSHORE transactions only', 'LEI typically required'],
+    relatedCodes: ['LDS', 'DLA', 'IGT'],
+    keywords: ['intragroup', 'securities', 'foreign', 'bonds', 'intercompany'],
+  },
+
+  LDS: {
+    code: 'LDS',
+    shortDescription: 'Debt instruments intragroup - UAE securities',
+    detailedDescription:
+      'Use this code for intragroup transactions involving UAE debt securities. This includes intercompany transfers of local bonds and notes between related entities.',
+    useCases: [
+      'Intragroup local bond transfer',
+      'Related party UAE securities',
+      'Group restructuring of local debt',
+    ],
+    examples: [
+      'Transfer of UAE sukuk between group companies',
+    ],
+    notes: ['For DOMESTIC transactions only', 'LEI typically required'],
+    relatedCodes: ['DSF', 'DLL', 'IGT'],
+    keywords: ['intragroup', 'securities', 'UAE', 'bonds', 'intercompany'],
+  },
+
+  FDA: {
+    code: 'FDA',
+    shortDescription: 'Financial derivatives - foreign',
+    detailedDescription:
+      'Use this code for foreign financial derivative transactions. This includes options, futures, forwards, and other derivative contracts with foreign counterparties.',
+    useCases: [
+      'Foreign exchange options',
+      'Commodity futures abroad',
+      'International derivative settlement',
+    ],
+    examples: [
+      'FX option premium payment',
+      'Commodity futures margin call',
+    ],
+    notes: ['For OFFSHORE transactions only', 'LEI typically required'],
+    relatedCodes: ['FDL', 'IRP', 'IRW'],
+    keywords: ['derivatives', 'options', 'futures', 'foreign', 'hedging'],
+  },
+
+  FDL: {
+    code: 'FDL',
+    shortDescription: 'Financial derivatives - UAE',
+    detailedDescription:
+      'Use this code for UAE-based financial derivative transactions. This includes options, futures, and other derivative contracts with local counterparties.',
+    useCases: [
+      'Local derivative settlement',
+      'UAE exchange-traded derivatives',
+      'Domestic hedging instruments',
+    ],
+    examples: [
+      'DGCX futures settlement',
+      'Local OTC derivative payment',
+    ],
+    notes: ['For DOMESTIC transactions only', 'LEI typically required'],
+    relatedCodes: ['FDA', 'IRP'],
+    keywords: ['derivatives', 'options', 'futures', 'UAE', 'DGCX'],
+  },
+
+  // ============================================================================
+  // REVERSALS AND REPOS
+  // ============================================================================
+  RDA: {
+    code: 'RDA',
+    shortDescription: 'Reverse debt instruments abroad',
+    detailedDescription:
+      'Use this code for reversal of foreign debt instrument transactions. This includes corrections, cancellations, and reversals of previous debt security transactions abroad.',
+    useCases: [
+      'Foreign bond transaction reversal',
+      'Debt instrument correction',
+      'Failed settlement reversal',
+    ],
+    examples: [
+      'Reversal of incorrect bond purchase',
+    ],
+    notes: ['For OFFSHORE transactions only'],
+    relatedCodes: ['RDL', 'DLA', 'DSA'],
+    keywords: ['reversal', 'correction', 'debt', 'foreign'],
+  },
+
+  RDL: {
+    code: 'RDL',
+    shortDescription: 'Reverse debt instruments in UAE',
+    detailedDescription:
+      'Use this code for reversal of UAE debt instrument transactions. This includes corrections, cancellations, and reversals of previous local debt security transactions.',
+    useCases: [
+      'Local bond transaction reversal',
+      'UAE debt correction',
+      'Settlement failure reversal',
+    ],
+    examples: [
+      'Reversal of incorrect sukuk purchase',
+    ],
+    notes: ['For DOMESTIC transactions only'],
+    relatedCodes: ['RDA', 'DLL', 'DSL'],
+    keywords: ['reversal', 'correction', 'debt', 'UAE'],
+  },
+
+  REA: {
+    code: 'REA',
+    shortDescription: 'Reverse equity shares abroad',
+    detailedDescription:
+      'Use this code for reversal of foreign equity share transactions. This includes corrections, cancellations, and reversals of previous foreign stock transactions.',
+    useCases: [
+      'Foreign share transaction reversal',
+      'Equity trade correction',
+      'Failed trade reversal',
+    ],
+    examples: [
+      'Reversal of incorrect foreign stock purchase',
+    ],
+    notes: ['For OFFSHORE transactions only'],
+    relatedCodes: ['REL', 'FSA', 'CEA'],
+    keywords: ['reversal', 'equity', 'shares', 'foreign', 'correction'],
+  },
+
+  REL: {
+    code: 'REL',
+    shortDescription: 'Reverse equity shares in UAE',
+    detailedDescription:
+      'Use this code for reversal of UAE equity share transactions. This includes corrections, cancellations, and reversals of previous local stock transactions.',
+    useCases: [
+      'Local share transaction reversal',
+      'UAE equity trade correction',
+      'DFM/ADX trade reversal',
+    ],
+    examples: [
+      'Reversal of incorrect DFM share purchase',
+    ],
+    notes: ['For DOMESTIC transactions only'],
+    relatedCodes: ['REA', 'FSL'],
+    keywords: ['reversal', 'equity', 'shares', 'UAE', 'correction'],
+  },
+
+  RFS: {
+    code: 'RFS',
+    shortDescription: 'Repos on foreign securities',
+    detailedDescription:
+      'Use this code for repurchase agreement (repo) transactions involving foreign securities. This includes both repo and reverse repo transactions with foreign bonds and instruments.',
+    useCases: [
+      'Foreign securities repo',
+      'International repo financing',
+      'Reverse repo with foreign bonds',
+    ],
+    examples: [
+      'Repo transaction using US Treasury bonds',
+      'Reverse repo with foreign corporate bonds',
+    ],
+    notes: ['For OFFSHORE transactions only', 'LEI typically required'],
+    relatedCodes: ['RLS', 'DLA'],
+    keywords: ['repo', 'repurchase', 'securities', 'foreign', 'financing'],
+  },
+
+  RLS: {
+    code: 'RLS',
+    shortDescription: 'Repos on securities issued by residents',
+    detailedDescription:
+      'Use this code for repurchase agreement (repo) transactions involving UAE-issued securities. This includes both repo and reverse repo transactions with local bonds and sukuk.',
+    useCases: [
+      'Local securities repo',
+      'UAE repo financing',
+      'Reverse repo with local bonds',
+    ],
+    examples: [
+      'Repo transaction using UAE government bonds',
+      'Reverse repo with local sukuk',
+    ],
+    notes: ['For DOMESTIC transactions only', 'LEI typically required'],
+    relatedCodes: ['RFS', 'DLL'],
+    keywords: ['repo', 'repurchase', 'securities', 'UAE', 'financing'],
+  },
 };
 
 /**
